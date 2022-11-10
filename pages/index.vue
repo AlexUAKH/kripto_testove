@@ -1,5 +1,11 @@
+<template lang="ts" setup>
+const store = useWalletS;
+
+onMount(() => {});
+</template>
+
 <template>
-  <div>
-    <h1 class="text-3xl underline">Hello world!</h1>
+  <div class="h-screen flex justify-center items-center">
+    <Wallet />
   </div>
 </template>
