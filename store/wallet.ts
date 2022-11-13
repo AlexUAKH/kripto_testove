@@ -28,52 +28,31 @@ export const useWalletStore = defineStore("wallet", {
     };
   },
   getters: {
-    isLoading: (state) => state.loading,
-    getFilter: (state) => state.filter,
-    getBalance: (state) => state.balance,
-    getBalanceInCurrentCurency: (state): Balance | null => {
-      if (!Object.keys(state.wallet).length) return null;
-      const balance = state.wallet[state.currency as Currencies];
-      if (!balance) return null;
-      delete balance.currency;
-
-      const formated = Object.fromEntries(
-        Object.keys(balance).map((key) => {
-          const bal = balance[key as Currencies];
-          if (!bal) return [key, null];
-          const isFiat = state.currencies[key as Currencies]?.fiat;
-          const rateToCurrentCurrency =
-            state.currencies[state.currency as Currencies]?.rate[
-              key as Currencies
-            ] || 1;
-          const converted = bal.total / rateToCurrentCurrency;
-          return [
-            key,
-            {
-              total: isFiat ? formatFiat(bal.total) : formatCripto(bal.total),
-              reserved: isFiat
-                ? formatFiat(bal.reserved)
-                : formatCripto(bal.reserved),
-              converted: state.currencies[state.currency as Currencies]?.fiat
-                ? formatFiat(converted)
-                : formatCripto(converted),
-            },
-          ];
-        })
-      );
-
+    isLoading: (state): boolean => state.loading,
+    getFilter: (state): string => state.filter,
+    getBalance: (state): Balance => state.balance,
+    getFilteredBalance: (state): Balance => {
       if (state.filter === "fiat") {
-        return Object.keys(formated)
+        return Object.keys(state.balance)
           .filter((cur) => state.currencies[cur as Currencies]?.fiat)
           .reduce((acc, cur) => {
-            acc[cur] = formated[cur as Currencies];
+            acc[cur] = state.balance[cur as Currencies];
             return acc;
           }, {} as any);
-      }
-
-      return formated;
+      } else return state.balance;
     },
-    getTotal: (state) => state.total,
+    getTotal(state): string {
+      const total = Object.values(this.getFilteredBalance).reduce(
+        (acc: number, val) => {
+          return (acc += Number(val.converted) || 0);
+        },
+        0
+      );
+
+      return state.currencies[state.currency as Currencies]?.fiat
+        ? formatFiat(total)
+        : formatCripto(total);
+    },
   },
   actions: {
     setFilter(filter: string) {
@@ -81,27 +60,33 @@ export const useWalletStore = defineStore("wallet", {
     },
     setCurrency(currency: string) {
       this.currency = currency;
+      this.formatBalance();
     },
     async fetchBalance() {
       this.loading = true;
       try {
         this.wallet = await getUserBalance();
         this.currencies = getCurrencies();
-        // this.formatBalance()
+        this.formatBalance();
       } catch (error) {
         this.error = "Somthing went wrong";
       } finally {
         this.loading = false;
       }
     },
-    formatBalance(balance: Balance, state: IState) {
-      return Object.fromEntries(
+    formatBalance() {
+      if (!Object.keys(this.wallet).length) return null;
+      const balance = this.wallet[this.currency as Currencies];
+      if (!balance) return null;
+      delete balance.currency;
+
+      this.balance = Object.fromEntries(
         Object.keys(balance).map((key) => {
           const bal = balance[key as Currencies];
           if (!bal) return [key, null];
-          const isFiat = state.currencies[key as Currencies]?.fiat;
+          const isFiat = this.currencies[key as Currencies]?.fiat;
           const rateToCurrentCurrency =
-            state.currencies[state.currency as Currencies]?.rate[
+            this.currencies[this.currency as Currencies]?.rate[
               key as Currencies
             ] || 1;
           const converted = bal.total / rateToCurrentCurrency;
@@ -112,7 +97,7 @@ export const useWalletStore = defineStore("wallet", {
               reserved: isFiat
                 ? formatFiat(bal.reserved)
                 : formatCripto(bal.reserved),
-              converted: state.currencies[state.currency as Currencies]?.fiat
+              converted: this.currencies[this.currency as Currencies]?.fiat
                 ? formatFiat(converted)
                 : formatCripto(converted),
             },

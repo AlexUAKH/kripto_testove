@@ -6,13 +6,12 @@ import WalletWithdrawBtn from "./WalletWithdrawBtn.vue";
 
 defineProps(["currency", "title"]);
 const store = useWalletStore();
-console.log("item");
 
-const withdraw = () => {
-  console.log("withdraw");
+const withdraw = (val: string) => {
+  console.log(`withdraw ${val}`);
 };
-const deposit = () => {
-  console.log("deposit");
+const deposit = (val: string) => {
+  console.log(`deposit ${val}`);
 };
 </script>
 
@@ -29,8 +28,8 @@ const deposit = () => {
         </div>
       </div>
       <div class="flex flex-col gap-2.5 mt-2.5 sm:flex-row">
-        <WalletWithdrawBtn @click="withdraw" />
-        <WalletDepositBtn @click="deposit" />
+        <WalletWithdrawBtn @click="() => withdraw(title)" />
+        <WalletDepositBtn @click="() => deposit(title)" />
       </div>
     </div>
     <div class="flex flex-col items-end justify-center text-sm">

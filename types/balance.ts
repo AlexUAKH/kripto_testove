@@ -14,12 +14,12 @@ type CurrencyRate = {
 };
 
 export type Wallet = {
-  [P in Currencies]?: Balance;
+  [P in Currencies]?: Balance & { currency?: string };
 };
 
 export type Balance = {
   [P in Currencies]?: IBalanceOption;
-} & { currency?: string };
+};
 
 interface IBalanceOption {
   total: number;
