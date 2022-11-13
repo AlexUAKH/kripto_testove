@@ -5,6 +5,7 @@ const props = defineProps(["name", "size", "color"]);
 const iconSize = computed(() => (props.size ? `${props.size}px` : "16"));
 const path = computed(() => icons[props.name]);
 const classes = computed(() => [`text-${props.color}`, "cursor-pointer"]);
+console.log("na: ", props.name);
 </script>
 
 <template>
@@ -15,10 +16,13 @@ const classes = computed(() => [`text-${props.color}`, "cursor-pointer"]);
     preserveAspectRatio="xMidYMid meet"
     data-testid="base-icon"
     viewBox="0 0 12 11"
+    :width="size"
+    :height="size"
     :class="classes"
     :style="{
       width: iconSize,
       height: iconSize,
+      fill: '#2D4D70',
     }"
     v-html="path"
   ></svg>

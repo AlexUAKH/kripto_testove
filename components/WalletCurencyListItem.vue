@@ -21,7 +21,7 @@ const deposit = (val: string) => {
   >
     <div class="">
       <div class="flex items-center">
-        <WalletListItemIcon name="euro" color="textdark" />
+        <WalletListItemIcon :name="title.toLowerCase()" color="textdark" />
         <div class="ml-1.5 font-raleway font-medium tracking-wide">
           {{ store.currencies[title as Currencies]?.title }}
           <span class="text-textblur">({{ title }})</span>

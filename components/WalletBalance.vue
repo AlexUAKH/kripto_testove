@@ -5,7 +5,7 @@ const store = useWalletStore();
 </script>
 
 <template>
-  <div
+  <section
     class="h-[60px] bg-primary/[0.06] rounded-sm flex flex-col justify-center items-center"
   >
     <div class="flex items-center text-[18px] text-primary tracking-wider">
@@ -16,5 +16,5 @@ const store = useWalletStore();
     <div class="font-raleway font-semibold text-sm text-white">
       Total balance
     </div>
-  </div>
+  </section>
 </template>
