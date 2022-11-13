@@ -26,6 +26,9 @@ module.exports = {
         grad_mid: "#213B57",
         grad_end: "#14273C",
       },
+      animation: {
+        "spin-pulse": "spin 1.2s cubic-bezier(0.5,0,0.5,1) infinite",
+      },
     },
     fontFamily: {
       sans: ["Roboto", "sans-serif"],

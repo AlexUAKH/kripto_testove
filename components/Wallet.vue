@@ -1,13 +1,23 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useWalletStore } from "~~/store/wallet";
+
+const store = useWalletStore();
+</script>
 
 <template>
   <div
-    class="w-[640px] max-w-[640px] min-w-[320px] shadow-wc bg-darkblue rounded mix-blend-normal"
+    class="w-[640px] max-w-[640px] min-w-[320px] md:shadow-wc bg-darkblue rounded mix-blend-normal"
   >
     <WalletHeader />
-    <div class="px-5 py-4 text-white">
+
+    <Loader v-if="store.isLoading" class="mx-auto" />
+    <div
+      v-else-if="Object.keys(store.wallet).length > 0"
+      class="px-5 py-4 text-white"
+    >
       <WalletCurencyList />
       <WalletBalance />
     </div>
+    <h3 v-else>Your balance is empty</h3>
   </div>
 </template>

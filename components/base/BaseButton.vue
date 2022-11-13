@@ -7,7 +7,7 @@ const style = computed(() => ({
 </script>
 
 <template>
-  <button :style="style" class="uppercase">
+  <button :style="style" class="uppercase hover:opacity-60">
     <slot />
   </button>
 </template>

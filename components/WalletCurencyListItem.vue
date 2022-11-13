@@ -1,6 +1,19 @@
 <script setup lang="ts">
+import { Currencies } from "~~/services/wallet";
+import { useWalletStore } from "~~/store/wallet";
 import WalletListItemIcon from "./WalletListItemIcon.vue";
 import WalletWithdrawBtn from "./WalletWithdrawBtn.vue";
+
+defineProps(["currency", "title"]);
+const store = useWalletStore();
+console.log("item");
+
+const withdraw = () => {
+  console.log("withdraw");
+};
+const deposit = () => {
+  console.log("deposit");
+};
 </script>
 
 <template>
@@ -11,18 +24,27 @@ import WalletWithdrawBtn from "./WalletWithdrawBtn.vue";
       <div class="flex items-center">
         <WalletListItemIcon name="euro" color="textdark" />
         <div class="ml-1.5 font-raleway font-medium tracking-wide">
-          Dollar <span class="text-textblur">(USD)</span>
+          {{ store.currencies[title as Currencies]?.title }}
+          <span class="text-textblur">({{ title }})</span>
         </div>
       </div>
       <div class="flex flex-col gap-2.5 mt-2.5 sm:flex-row">
-        <WalletWithdrawBtn />
-        <WalletDepositBtn />
+        <WalletWithdrawBtn @click="withdraw" />
+        <WalletDepositBtn @click="deposit" />
       </div>
     </div>
     <div class="flex flex-col items-end justify-center text-sm">
-      <div class="mb-1.5">Bcero: 0.00001 EUR</div>
-      <div class="mb-1.5">B заявках: 0.00000 EUR</div>
-      <div class="text-primary">1.98 EUR</div>
+      <div class="mb-1.5">
+        Bcero: {{ currency.total }} <span class="uppercase">{{ title }}</span>
+      </div>
+      <div class="mb-1.5">
+        B заявках: {{ currency.reserved }}
+        <span class="uppercase">{{ title }}</span>
+      </div>
+      <div class="text-primary">
+        {{ currency.converted || "-" }}
+        <span class="uppercase">{{ store.currency }}</span>
+      </div>
     </div>
   </div>
 </template>
