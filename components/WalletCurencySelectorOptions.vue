@@ -15,13 +15,15 @@ useClickOutside(menu, close);
     ref="menu"
     class="absolute right-0 bottom-6 bg-primary text-white px-1 py-0 z-10"
   >
-    <div
-      v-for="currency in Object.keys(currencies)"
-      :key="currency"
-      class="uppercase hover:opacity-70 text-center"
-      @click.stop="$emit('select', currency)"
-    >
-      {{ currency }}
-    </div>
+    <ul class="list-none">
+      <li
+        v-for="currency in Object.keys(currencies)"
+        :key="currency"
+        class="uppercase hover:opacity-70 text-center"
+        @click.stop="$emit('select', currency)"
+      >
+        {{ currency }}
+      </li>
+    </ul>
   </nav>
 </template>

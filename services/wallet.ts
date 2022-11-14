@@ -2,7 +2,7 @@ import { Wallet } from "~~/types/balance";
 
 export const getUserBalance = (): Promise<Wallet> => {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(res), 1500);
+    setTimeout(() => resolve(res), 0);
   });
 };
 

@@ -19,7 +19,7 @@ const deposit = (val: string) => {
   <div
     class="flex justify-between pb-3.5 border-b border-b-primary/20 border-dashed last-of-type:border-none rounded"
   >
-    <div class="">
+    <div>
       <div class="flex items-center">
         <WalletListItemIcon :name="title.toLowerCase()" color="textdark" />
         <div class="ml-1.5 font-raleway font-medium tracking-wide">

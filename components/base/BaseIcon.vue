@@ -5,7 +5,6 @@ const props = defineProps(["name", "size", "color"]);
 const iconSize = computed(() => (props.size ? `${props.size}px` : "16"));
 const path = computed(() => icons[props.name]);
 const classes = computed(() => `fill-${props.color}`);
-console.log("na: ", props.name);
 </script>
 
 <template>

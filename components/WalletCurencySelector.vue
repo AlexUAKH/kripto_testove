@@ -25,7 +25,7 @@ const select = (curency: string): void => {
     @click.stop="toggle"
   >
     {{ store.currency }}
-    <img class="w-2 h-1 ml-0.5" src="../assets/img/doun.png" alt="" />
+    <img class="w-2 h-1 ml-0.5" src="../assets/img/doun.png" alt="icon" />
     <WalletCurencySelectorOptions
       v-if="curencySelectShow"
       :currencies="store.currencies"

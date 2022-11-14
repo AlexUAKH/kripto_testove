@@ -11,13 +11,13 @@ const store = useWalletStore();
     <WalletHeader />
 
     <Loader v-if="store.isLoading" class="mx-auto" />
-    <div
+    <section
       v-else-if="Object.keys(store.wallet).length > 0"
       class="px-5 py-4 text-white"
     >
       <WalletCurencyList />
       <WalletBalance />
-    </div>
+    </section>
     <h3 v-else>Your balance is empty</h3>
   </div>
 </template>
